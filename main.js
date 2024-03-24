@@ -239,22 +239,41 @@ $(function() {
     }
     reorder();
 
-	    // When user receives likes
+	function LikeDisLike() {
     $('.userslikes').each(function() {
-      var that = $(this);
-      var usernames = $(this).data('usernames').split(",");
-      var times = $(this).data('likes').split(",");
+    var that = $(this);
+    var usernames = $(this).data('usernames').split(",");
+    var times = $(this).data('likes').split(",");
 
-      for(var i=0; i<times.length; i++) { 
-        times[i] = +times[i]; 
+    for(var i=0; i<times.length; i++) {
+      times[i] = +times[i];
+      if(times[i]==43000) {
         themsg = usernames[i] + " liked your post";
-        
+        setTimeout(function(themsg) {
+          that.text(parseInt(that.text()) + 1);
+          alertify.success(themsg)
+        }, times[i], themsg);
+      }
+      else {
+        DislikeFunction(times[i],usernames[i]);
+      }
+    }
+    });
+  }
+
+  function DislikeFunction(times,usernames) {
+    $('.usersDislikes').each(function(){
+       if(times[i]== 15000 || times[i]== 35000 || times[i]== 50000 || times[i]== 80000 || times[i]== 100000 || times[i]== 132000) {
+        var that = $(this);
+        themsg = usernames + " disliked your post";
         setTimeout(function(themsg) {
           that.text(parseInt(that.text()) + 1);
           alertify.error(themsg)
-        }, times[i], themsg);
-      } 		
+        }, times, themsg);
+      }
     });
+  }
+
 	  
 	  // When user receives likes
     $('.usersDislikes').each(function() {
