@@ -264,7 +264,7 @@ $(function() {
 
   function DislikeFunction(times,usernames) {
     $('.usersDislikes').each(function(){
-      if(times==30000,70000){
+      if(times==30000){
         var that = $(this);
         themsg = usernames + " disliked your post";
         setTimeout(function(themsg) {
