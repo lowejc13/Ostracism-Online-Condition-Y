@@ -239,44 +239,23 @@ $(function() {
     }
     reorder();
 
-	function LikeDisLike() {
-    $('.userslikes').each(function() {
-    var that = $(this);
-    var usernames = $(this).data('usernames').split(",");
-    var times = $(this).data('likes').split(",");
+  // When user receives likes
+    $('.usersDislikes').each(function() {
+      var that = $(this);
+      var usernames = $(this).data('usernames').split(",");
+      var times = $(this).data('likes').split(",");
 
-  for(var i=0; i<times.length; i++) {
-        if(times[i]==25000) {
-          setTimeout(function () {
-            that.text(parseInt(that.text()) + 0);
-          }, times[i]);
-        }
-        else {
-          times[i] = +times[i] +2000;
-          setTimeout(function () {
-            that.text(parseInt(that.text()) + 1);
-          }, times[i]);
-        }
-      }
+      for(var i=0; i<times.length; i++) { 
+        times[i] = +times[i]; 
+        themsg = usernames[i] + " disliked your post";
+        
+        setTimeout(function(themsg) {
+          that.text(parseInt(that.text()) + 1);
+          alertify.error(themsg)
+        }, times[i], themsg);
+      } 		
     });
-  }
-
-  function DislikeFunction(times,usernames) {
-    $('.usersDislikes').each(function(){
-  for(var i=0; i<times.length; i++) {
-        if(times[i]== 12000 || times[i] == 28000 ||  times[i] ==  38000 || times[i] == 50000  || times[i] == 80000  || times[i] == 100000 {
-          setTimeout(function () {
-            that.text(parseInt(that.text()) + 0);
-          }, times[i]);
-        }
-        else {
-          times[i] = +times[i] +2000;
-          setTimeout(function () {
-            that.text(parseInt(that.text()) + 1);
-          }, times[i]);
-        }
-      }
-    });
+	  
   LikeDisLike();  // Initializes the like and dislike
 
     // When others receive likes
