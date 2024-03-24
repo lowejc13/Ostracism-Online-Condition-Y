@@ -247,7 +247,7 @@ $(function() {
 
     for(var i=0; i<times.length; i++) {
       times[i] = +times[i];
-      if(times[i]==35000) {
+
         themsg = usernames[i] + " liked your post";
         setTimeout(function(themsg) {
           that.text(parseInt(that.text()) + 1);
@@ -263,7 +263,6 @@ $(function() {
 
   function DislikeFunction(times,usernames) {
     $('.usersDislikes').each(function(){
-      if(times==80000){
         var that = $(this);
         themsg = usernames + " disliked your post";
         setTimeout(function(themsg) {
