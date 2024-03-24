@@ -27,7 +27,7 @@ $(function() {
     // **Number** **of** **"likes"**
     // Each received "like" is indicated by the timepoint (in ms) at which the "like" will appear. To change the number of "likes" in each condition, add or remove timepoints. Make sure that every timepoint (except the first) is preceded by a single comma.
     // User will receive 6 likes at the following timepoints (in ms).
-    window.settings.condition_likes = [12000,25000,28000,38000,50000,80000,100000];
+    window.settings.condition_likes = [10000,35000,80000,100000,132000,150000];
 
 	  // **Others' likes**
 	  // To keep the total distribution of "likes" constant across conditions, The "likes" received by one group member can be adjusted according to the participant's. By default, the other group member receives 9 "likes" in the participant-ostracism condition, 5 in the participant-inclusion condtion, and 1 in the participant-overinclusion condtion.
@@ -239,7 +239,7 @@ $(function() {
     }
     reorder();
 
-  // When user receives likes
+   // When user receives likes
     $('.usersDislikes').each(function() {
       var that = $(this);
       var usernames = $(this).data('usernames').split(",");
@@ -255,8 +255,6 @@ $(function() {
         }, times[i], themsg);
       } 		
     });
-	  
-  LikeDisLike();  // Initializes the like and dislike
 
     // When others receive likes
     $('.otherslikes').each(function() {
@@ -323,16 +321,15 @@ $(function() {
       columnWidth : 10
     });
 
-    // Redirect, default after 180000ms = 180s = 3min
+    // Redirect, default after 180000ms = 180s = 3min, disabled 'Continue' button with redirect link
     setTimeout(function() {
-
       $(window).unbind('beforeunload');
-      $('#final-continue').show();
+      //$('#final-continue').show();
       $('#timer').text('00:00');
-      $('#final-continue').on('click', function() {
+      //$('#final-continue').on('click', function() {
         // Redirect link
-        location.href = window.redirect+'&p='+window.participant+'&c='+window.condition+'&u='+encodeURI(window.username)+'&av='+window.avatarexport+'&d='+encodeURI(window.description)
-      });
+        //location.href = window.redirect+'&a='+window.participant+'&b='+window.condition+'&c='+encodeURI(window.username)+'&d='+window.avatarexport+'&e='+encodeURI(window.description);  // change p->a, c->b, u ->c, av->d, d->e
+      //});
     },window.settings.tasklength); // timing for task
   }
 
@@ -351,34 +348,6 @@ $(function() {
     }
   }
 
-	// Get URL parameters to set condition number and participant number
-  function get_params() {
-    // condition number must be 1, 2, or 3
-    if(window.QueryString.c !== undefined && !isNaN(parseInt(window.QueryString.c)) && parseInt(window.QueryString.c) > 0 && parseInt(window.QueryString.c) < 4) {
-      window.condition = parseInt(window.QueryString.c);
-    } else {
-      window.condition = 2; // condition defaults to 2
-    }
-    // participant number must be numeric
-    if(window.QueryString.p !== undefined && !isNaN(parseInt(window.QueryString.p))) {
-      window.participant = parseInt(window.QueryString.p);
-    } else {
-      window.participant = 0; // participant defaults to 0
-    }    
-    // redirect
-    if(window.QueryString.redirect !== undefined && window.QueryString.redirect !== "") {
-      window.redirect = decode(window.QueryString.redirect);
-    } else {
-	  window.redirect = window.settings.defaultredirect;
-	}
-	
-	var urlHasQuestionMark = (window.redirect.indexOf("?") > -1);
-	if(!urlHasQuestionMark) {
-		window.redirect = window.redirect+"?redir=1";
-	}
-	//alert(window.redirect);
-
-  }
   // The variable QueryString contains the url parameters, i.e. condition no. and participant no.
   // via http://stackoverflow.com/a/979995
   window.QueryString = function () {
