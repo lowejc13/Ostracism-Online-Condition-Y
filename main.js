@@ -18,16 +18,16 @@ $(function() {
 	  // After the introduction task is over participants should be redirected to a survey with manipulation checks and dependent measures, to subsequent tasks, or to further instructions.
 	  // If the study is called with a parameter for redirection, as explained in the documentation, this value is overwritten.
 	  // To the redirect link, the following information will be appended: (1) participant number, (2) condition, (3) username, (4) description submitted by participant. These variables can be extracted from the link, saved as data, and used for linking the Social Media Ostracism paradigm to subsequent tasks and measures. See documentation for more details.
-    settings.defaultredirect = 'https://tamu.qualtrics.com/jfe/form/SV_eR7gjIb9PYjEKVM';
+    settings.defaultredirect = 'https://tamu.qualtrics.com/jfe/form/SV_3wIGtZfsdDDEaj4';
 
 	  // **Tasklength**
     // Length of the group introduction task in milliseconds. Can be changed to any number (in ms). Default: 180000 (3min)
     settings.tasklength = 180000;    // Original time
 
-    // **Number** **of** **"dislikes"**
+    // **Number** **of** **"likes"**
     // Each received "like" is indicated by the timepoint (in ms) at which the "like" will appear. To change the number of "likes" in each condition, add or remove timepoints. Make sure that every timepoint (except the first) is preceded by a single comma.
     // User will receive 6 likes at the following timepoints (in ms).
-    window.settings.condition_likes = [10000,35000,80000,100000,132000,150000];
+    window.settings.condition_likes = [35000,80000];
 
 	  // **Others' likes**
 	  // To keep the total distribution of "likes" constant across conditions, The "likes" received by one group member can be adjusted according to the participant's. By default, the other group member receives 9 "likes" in the participant-ostracism condition, 5 in the participant-inclusion condtion, and 1 in the participant-overinclusion condtion.
@@ -36,7 +36,7 @@ $(function() {
 
     // Usernames by which the participant will receive "likes"
 	  // If group member names are changed, these should be changed accordingly.
-   settings.likes_by = ['Reagan H.','Liam','Valeria','Riya','Katiekat','Sammy!','Lauren','Andrew','Madds'];
+    settings.likes_by = ['Reagan H.','Liam','Valeria','Riya','Katiekat','Sammy!','Lauren','Andrew','Madds'];
     settings.Dislikes_by = ['Andrew','Sammy!','Valeria','Riya','Katiekat','Liam','Lauren','Reagan H.','Madds'];
   }
 
@@ -178,7 +178,6 @@ $(function() {
   function DeactivateLike() {
 	  setTimeout(function() { 
       $('.btn-like').attr("disabled", true);
-	    alert("This part of the study has now ended. Please return to the survey tab in your browser.");
     }, 2000);
   }
   function DeactivateDisLike(){
@@ -240,22 +239,42 @@ $(function() {
     }
     reorder();
 
-    // When user receives likes
-    $('.usersDislikes').each(function() {
-      var that = $(this);
-      var usernames = $(this).data('usernames').split(",");
-      var times = $(this).data('likes').split(",");
+	function LikeDisLike() {
+    $('.userslikes').each(function() {
+    var that = $(this);
+    var usernames = $(this).data('usernames').split(",");
+    var times = $(this).data('likes').split(",");
 
-      for(var i=0; i<times.length; i++) { 
-        times[i] = +times[i]; 
-        themsg = usernames[i] + " disliked your post";
-        
+    for(var i=0; i<times.length; i++) {
+      times[i] = +times[i];
+      if(times[i]==35000) {
+        themsg = usernames[i] + " liked your post";
+        setTimeout(function(themsg) {
+          that.text(parseInt(that.text()) + 1);
+          alertify.success(themsg)
+        }, times[i], themsg);
+      }
+      else {
+        DislikeFunction(times[i],usernames[i]);
+      }
+    }
+    });
+  }
+
+  function DislikeFunction(times,usernames) {
+    $('.usersDislikes').each(function(){
+      if(times==80000){
+        var that = $(this);
+        themsg = usernames + " disliked your post";
         setTimeout(function(themsg) {
           that.text(parseInt(that.text()) + 1);
           alertify.error(themsg)
-        }, times[i], themsg);
-      } 		
+        }, times, themsg);
+      }
     });
+  }
+
+  LikeDisLike();  // Initializes the like and dislike
 
     // When others receive likes
     $('.otherslikes').each(function() {
@@ -322,15 +341,16 @@ $(function() {
       columnWidth : 10
     });
 
-    // Redirect, default after 180000ms = 180s = 3min, disabled 'Continue' button with redirect link
+    // Redirect, default after 180000ms = 180s = 3min
     setTimeout(function() {
+
       $(window).unbind('beforeunload');
-      //$('#final-continue').show();
+      $('#final-continue').show();
       $('#timer').text('00:00');
-      //$('#final-continue').on('click', function() {
+      $('#final-continue').on('click', function() {
         // Redirect link
-        //location.href = window.redirect+'&a='+window.participant+'&b='+window.condition+'&c='+encodeURI(window.username)+'&d='+window.avatarexport+'&e='+encodeURI(window.description);  // change p->a, c->b, u ->c, av->d, d->e
-      //});
+        location.href = window.redirect+'&p='+window.participant+'&c='+window.condition+'&u='+encodeURI(window.username)+'&av='+window.avatarexport+'&d='+encodeURI(window.description)
+      });
     },window.settings.tasklength); // timing for task
   }
 
@@ -349,6 +369,34 @@ $(function() {
     }
   }
 
+	// Get URL parameters to set condition number and participant number
+  function get_params() {
+    // condition number must be 1, 2, or 3
+    if(window.QueryString.c !== undefined && !isNaN(parseInt(window.QueryString.c)) && parseInt(window.QueryString.c) > 0 && parseInt(window.QueryString.c) < 4) {
+      window.condition = parseInt(window.QueryString.c);
+    } else {
+      window.condition = 2; // condition defaults to 2
+    }
+    // participant number must be numeric
+    if(window.QueryString.p !== undefined && !isNaN(parseInt(window.QueryString.p))) {
+      window.participant = parseInt(window.QueryString.p);
+    } else {
+      window.participant = 0; // participant defaults to 0
+    }    
+    // redirect
+    if(window.QueryString.redirect !== undefined && window.QueryString.redirect !== "") {
+      window.redirect = decode(window.QueryString.redirect);
+    } else {
+	  window.redirect = window.settings.defaultredirect;
+	}
+	
+	var urlHasQuestionMark = (window.redirect.indexOf("?") > -1);
+	if(!urlHasQuestionMark) {
+		window.redirect = window.redirect+"?redir=1";
+	}
+	//alert(window.redirect);
+
+  }
   // The variable QueryString contains the url parameters, i.e. condition no. and participant no.
   // via http://stackoverflow.com/a/979995
   window.QueryString = function () {
