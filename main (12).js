@@ -18,7 +18,7 @@ $(function() {
 	  // After the introduction task is over participants should be redirected to a survey with manipulation checks and dependent measures, to subsequent tasks, or to further instructions.
 	  // If the study is called with a parameter for redirection, as explained in the documentation, this value is overwritten.
 	  // To the redirect link, the following information will be appended: (1) participant number, (2) condition, (3) username, (4) description submitted by participant. These variables can be extracted from the link, saved as data, and used for linking the Social Media Ostracism paradigm to subsequent tasks and measures. See documentation for more details.
-    settings.defaultredirect = 'https://msu.co1.qualtrics.com/jfe/form/SV_6yWfqs7ndfVR0mq';
+    settings.defaultredirect = 'https://tamu.qualtrics.com/jfe/form/SV_eR7gjIb9PYjEKVM';
 
 	  // **Tasklength**
     // Length of the group introduction task in milliseconds. Can be changed to any number (in ms). Default: 180000 (3min)
@@ -36,8 +36,8 @@ $(function() {
 
     // Usernames by which the participant will receive "likes"
 	  // If group member names are changed, these should be changed accordingly.
-    settings.likes_by = ['Hannah','Georgeee','Sarah','Arjen','Jenny','AncaD','Laura','John','Ky'];
-    settings.Dislikes_by = ['John','AncaD','Sarah','Arjen','Jenny','Georgeee','Laura','Hannah','Ky'];
+   settings.likes_by = ['Reagan H.','Liam','Valeria','Riya','Katiekat','Sammy!','Lauren','Andrew','Madds'];
+    settings.Dislikes_by = ['Andrew','Sammy!','Valeria','Riya','Katiekat','Liam','Lauren','Reagan H.','Madds'];
   }
 
   // -------------------
