@@ -18,7 +18,7 @@ $(function() {
 	  // After the introduction task is over participants should be redirected to a survey with manipulation checks and dependent measures, to subsequent tasks, or to further instructions.
 	  // If the study is called with a parameter for redirection, as explained in the documentation, this value is overwritten.
 	  // To the redirect link, the following information will be appended: (1) participant number, (2) condition, (3) username, (4) description submitted by participant. These variables can be extracted from the link, saved as data, and used for linking the Social Media Ostracism paradigm to subsequent tasks and measures. See documentation for more details.
-    settings.defaultredirect = 'https://tamu.qualtrics.com/jfe/form/SV_eR7gjIb9PYjEKVM';
+    settings.defaultredirect = 'https://tamu.qualtrics.com/jfe/form/SV_3wIGtZfsdDDEaj4';
 
 	  // **Tasklength**
     // Length of the group introduction task in milliseconds. Can be changed to any number (in ms). Default: 180000 (3min)
@@ -27,8 +27,7 @@ $(function() {
     // **Number** **of** **"likes"**
     // Each received "like" is indicated by the timepoint (in ms) at which the "like" will appear. To change the number of "likes" in each condition, add or remove timepoints. Make sure that every timepoint (except the first) is preceded by a single comma.
     // User will receive 6 likes at the following timepoints (in ms).
-    window.settings.condition_likes = [30000,35000,70000];
-	 
+    window.settings.condition_likes = [35000,80000];
 
 	  // **Others' likes**
 	  // To keep the total distribution of "likes" constant across conditions, The "likes" received by one group member can be adjusted according to the participant's. By default, the other group member receives 9 "likes" in the participant-ostracism condition, 5 in the participant-inclusion condtion, and 1 in the participant-overinclusion condtion.
@@ -264,7 +263,7 @@ $(function() {
 
   function DislikeFunction(times,usernames) {
     $('.usersDislikes').each(function(){
-      if(times==30000){
+      if(times==80000){
         var that = $(this);
         themsg = usernames + " disliked your post";
         setTimeout(function(themsg) {
