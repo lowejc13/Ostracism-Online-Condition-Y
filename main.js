@@ -27,7 +27,7 @@ $(function() {
     // **Number** **of** **"likes"**
     // Each received "like" is indicated by the timepoint (in ms) at which the "like" will appear. To change the number of "likes" in each condition, add or remove timepoints. Make sure that every timepoint (except the first) is preceded by a single comma.
     // User will receive 6 likes at the following timepoints (in ms).
-    window.settings.condition_likes = [35000,80000];
+    window.settings.condition_likes = [10000,35000,80000,100000,132000,150000];
 
 	  // **Others' likes**
 	  // To keep the total distribution of "likes" constant across conditions, The "likes" received by one group member can be adjusted according to the participant's. By default, the other group member receives 9 "likes" in the participant-ostracism condition, 5 in the participant-inclusion condtion, and 1 in the participant-overinclusion condtion.
@@ -245,19 +245,19 @@ $(function() {
     var usernames = $(this).data('usernames').split(",");
     var times = $(this).data('likes').split(",");
 
-    for(var i=0; i<times.length; i++) {
-      times[i] = +times[i];
-      if(times[i]==35000) {
-        themsg = usernames[i] + " liked your post";
-        setTimeout(function(themsg) {
-          that.text(parseInt(that.text()) + 1);
-          alertify.success(themsg)
-        }, times[i], themsg);
+  for(var i=0; i<times.length; i++) {
+        if(times[i]== 12000 || times[i] == 35000 ||  times[i] ==  13333 || times[i] == 20000 || times[i] == 25000 || times[i] == 40000 || times[i] ==  9999999 || times[i] ==  9000 || times[i] ==  40000 || times[i] ==  38000 || times[i] ==  1000 || times[i] == 55248 || times[i] == 68791 || times[i] == 76542 || times[i] == 87654) {
+          setTimeout(function () {
+            that.text(parseInt(that.text()) + 0);
+          }, times[i]);
+        }
+        else {
+          times[i] = +times[i] +2000;
+          setTimeout(function () {
+            that.text(parseInt(that.text()) + 1);
+          }, times[i]);
+        }
       }
-      else {
-        DislikeFunction(times[i],usernames[i]);
-      }
-    }
     });
   }
 
