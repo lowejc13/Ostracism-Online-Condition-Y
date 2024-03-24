@@ -27,8 +27,7 @@ $(function() {
     // **Number** **of** **"likes"**
     // Each received "like" is indicated by the timepoint (in ms) at which the "like" will appear. To change the number of "likes" in each condition, add or remove timepoints. Make sure that every timepoint (except the first) is preceded by a single comma.
     // User will receive 6 likes at the following timepoints (in ms).
-    window.settings.condition_likes = [43000];
-	  window.settings.condition_dislikes = [15000,35000,50000,80000,100000,132000];
+    window.settings.condition_likes = [15000,35000,50000,80000,100000,132000];
 
 	  // **Others' likes**
 	  // To keep the total distribution of "likes" constant across conditions, The "likes" received by one group member can be adjusted according to the participant's. By default, the other group member receives 9 "likes" in the participant-ostracism condition, 5 in the participant-inclusion condtion, and 1 in the participant-overinclusion condtion.
@@ -240,43 +239,7 @@ $(function() {
     }
     reorder();
 
-	function LikeDisLike() {
-    $('.userslikes').each(function() {
-    var that = $(this);
-    var usernames = $(this).data('usernames').split(",");
-    var times = $(this).data('likes').split(",");
-
-    for(var i=0; i<times.length; i++) {
-      times[i] = +times[i];
-      if(times[i]==43000) {
-        themsg = usernames[i] + " liked your post";
-        setTimeout(function(themsg) {
-          that.text(parseInt(that.text()) + 1);
-          alertify.success(themsg)
-        }, times[i], themsg);
-      }
-      else {
-        DislikeFunction(times[i],usernames[i]);
-      }
-    }
-    });
-  }
-
-  function DislikeFunction(times,usernames) {
-    $('.usersDislikes').each(function(){
-       if(times[i]== 15000 || times[i]== 35000 || times[i]== 50000 || times[i]== 80000 || times[i]== 100000 || times[i]== 132000) {
-        var that = $(this);
-        themsg = usernames + " disliked your post";
-        setTimeout(function(themsg) {
-          that.text(parseInt(that.text()) + 1);
-          alertify.error(themsg)
-        }, times, themsg);
-      }
-    });
-  }
-
-	  
-	  // When user receives likes
+	    // When user receives likes
     $('.usersDislikes').each(function() {
       var that = $(this);
       var usernames = $(this).data('usernames').split(",");
